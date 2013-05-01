@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Set Subject</title>
+	<script>
+		var continueSubjectFill = true;
+		
+		function StopFillSubject()
+		{
+			continueSubjectFill = false;
+			//document.f.subject.value =  continueSubjectFill;
+		}
+		
+		function checkForKeysToStopSubject(keyYouEntered)
+		{
+			const EnterKeyNumber = 13;
+			if (keyYouEntered==EnterKeyNumber)
+			{
+				StopFillSubject();
+			}
+		}
+		function ResetFillSubject()
+		{
+			continueSubjectFill = true;
+		}
+		function FillSubject()
+		{
+			var texttoset = document.f.TextMessage.value;
+			
+			var key = window.event.keyCode;
+			
+			checkForKeysToStopSubject(key);
+
+			if (continueSubjectFill==true && texttoset.length < 50){
+				document.f.subject.value = texttoset;
+			}
+		}
+	</script>
+	<br/>
+</head>
+<body>
+		<br/>
+		<form name = "f" id = "f" onSubmit="return ResetFillSubject();">
+			Subject <br>
+			<input name="subject" id="subject" 
+				placeholder="Enter Subject" size="100" 
+				onFocus="return StopFillSubject();"
+			/>
+			<br>
+
+			<p><textarea name="TextMessage" rows="10" 
+				cols="70" onkeyup="return FillSubject();"
+				autofocus
+				placeholder="Enter Note Here" wrap="soft"></textarea></p>
+			 <br>
+			<input type="submit" value="Reset" onClick="return ResetFillSubject();"/>
+		</form>
+</body>
+</html>

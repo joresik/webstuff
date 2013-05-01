@@ -1,0 +1,123 @@
+<html>
+<head>
+	<title> Memory game using polygons</title>
+	<style>
+		form {
+		width: 330px;
+		margin:20pk;
+		background-color:pink;
+		Padding:20px;
+		}
+		input {
+			text-align:right;
+		}
+	</style>
+	<script type="text/javascript">
+		var ctx;
+		var firstpick = true;
+		var firstcard;
+		var secondcard;
+		var frontbgcolor = "rgb(251,215,73)";
+		var polycolor = "rgb(254, 11, 0)";
+		var backcolor = "rgb(128,0,128)";
+		var tablecolor = "rgb(255, 255, 255)";
+		var cardrad = 30;
+		var deck = [];
+		var firstsx = 30;
+		var firstsy = 50;
+		var margin = 30;
+		// set card size to 4 times radius
+		var cardwidth = 4*cardrad;
+		var cardheight = 4*cardrad;
+		var matched;
+		var starttime;
+		
+		function Card (sx, sy, swidth, sheight, info) {
+			this.sx = sx;
+			this.sy = sy;
+			this.swidth = swidth;
+			this.sheight = sheight;
+			this.info = info;
+			this.draw = drawback;
+		}
+		
+		function makedeck() {
+			var i;
+			var acard;
+			var bcard;
+			var cx = firstsx;
+			var cy = firstsy;
+			for(i=3;i<9; i++) {
+				scard = new Card(cx, cy, cardwidth, cardheight, i);
+				deck.push(acard);
+				bcard = new Card(cx, cy + cardheight + margin, cardwidth, cardheight, i);
+				deck.push(bcard);
+				cx = cx+cardwidth + margin;
+				acard.draw();
+				bcard.draw();
+			}
+			Shuffle();
+		}
+		
+		function Shuffle() {
+			var i;
+			var k;
+			var holder;
+			var dl = deck.length;
+			var nt;
+			for (nt=0;nt<3*dl;nt++) {
+				i = Math.floor(Math.random()*dl);
+				k = Mathfloor(Math.random()*dl);
+				holder = deck[i].info;
+				deck[i].info = deck[k].info;
+				deck[k].info = holder;
+			}
+		}
+		
+		function Polycard(sx, sy, rad, n) {
+			this.sx = sx;
+			this.sy = sy;
+			this.rad = rad;
+			this.draw = drawpoly;
+			this.n = n;
+			this.angle = (2*math.PI)/n
+		}
+		
+		function drawpoly() {
+			ctx.fillStyle = frontbgcolor;
+			ctx.fillRect(this.sx-2* this.rad, this.sy-2*this.rad, 4*this.rad);
+			ctx.beginPath();
+			ctx.fillStyle = polycolor;
+			var i;
+			var rad = this.rad;
+			ctx.moveTo(this.sx+rad*Math.cos(-.5* this.angle), this.sy+rad*Math.sin(-.5*this.angle));
+			for (i=1;i<this.n;i++) {
+				ctx.lineto(this.sx+rad*Math.cos(i-.5)*this.angle), this.sy+rad*Math.sin(i-.5)*this.angle));
+			}
+			ctx.fill();
+		}
+		
+		function drawback() {
+			ctx.fillStyle = backcolor;
+			ctx.fillRect(thhis.sx, this.sy, this.swidth, this.sheight);
+		}
+		
+		function chose(ev) {
+			var mx;
+			var my;
+			var pick1;
+			var pick2;
+			if ( ev.layerx || ev.layerX == 0 {
+				mx= ev.layerX;
+				my = ev.layerY;
+			}
+			else if (ev.offsetX || ev.offsetX == 0) {
+				mx = ev.offsetX;
+				my = ev.offsetY;
+			}
+			var i;
+			for (i=0;i<deck.length; i++) {
+				var card = deck[i];
+				if (card.sx >=0)
+				if ((mx>card.sx)&&(mx<card.sx+card.swidth)&&(my>card.sy)&&(my<card.sy+card.sheight)){
+					
